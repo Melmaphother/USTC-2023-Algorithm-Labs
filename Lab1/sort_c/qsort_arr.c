@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define K 15
+#define K 64
 
 int *LoadData(char *data_path);
 void StoreData(int *data, int data_size, char *store_path);
@@ -11,7 +11,7 @@ void StoreData(int *data, int data_size, char *store_path);
 int	 GetRandom(double Min, double Max);
 int *Partition(int *data, int p, int r);
 int *Random_Partition(int *data, int p, int r);
-int *Midium_Partition(int *data, int p, int r);
+int *Medium_Partition(int *data, int p, int r);
 
 void InsertSort(int *data, int p, int r);
 void QuickSort(int *data, int p, int r);
@@ -25,7 +25,6 @@ void swap(int *a, int *b) {
 
 int *LoadData(char *data_path) {
 	FILE *f = fopen(data_path, "r");
-	int	  item;
 	int	  data_size;
 	int	  count = 0;
 	int	 *data	= NULL;
@@ -93,7 +92,7 @@ int *Partition(int *data, int p, int r) {
 // 	return Partition(data, p, r);
 // }
 
-int *Midium_Partition(int *data, int p, int r) {
+int *Medium_Partition(int *data, int p, int r) {
 	int arr[5]	 = {data[p], data[(3 * p + r) / 4], data[(p + r) / 2],
 					data[(p + 3 * r) / 4], data[r]};
 	int index[5] = {p, (3 * p + r) / 4, (p + r) / 2, (p + 3 * r) / 4, r};
@@ -124,8 +123,8 @@ void QuickSort(int *data, int p, int r) {
 		InsertSort(data, p, r);
 		return;
 	}
-	// auto ret = Random_Partition(data, p, r);
-	int *ret = Midium_Partition(data, p, r);
+	// int* ret = Random_Partition(data, p, r);
+	int *ret = Medium_Partition(data, p, r);
 	QuickSort(data, p, ret[0] - 1);
 	QuickSort(data, ret[1], r);
 }
@@ -142,14 +141,32 @@ bool Verify(int *data, int p, int r) {
 	return flag;
 }
 
+int compare(const void *a, const void *b) { return (*(int *)a - *(int *)b); }
+
 int main() {
-	int	   *arr = LoadData("data.txt");
-	clock_t start, end;
-	start = clock();
-	QuickSort(arr, 0, 100000 - 1);
-	end = clock();
-	printf("duration of my quicksort is %lf ms", (double)(end - start));
-	bool flag = Verify(arr, 0, 100000 - 1);
-	// cout << "flag = " << flag << endl;
-	if (flag) StoreData(arr, 100000, "sorted_1.txt");
+	int	   *arr			= NULL;
+	clock_t my_duration = 0, c_lib_duration = 0;
+    //../Data/data.txt
+	char   *data_path = "../Data/ExtraData/1.in";
+	for (size_t i = 0; i < 100; i++) {
+		arr = LoadData(data_path);
+		clock_t start, end;
+		start = clock();
+		QuickSort(arr, 0, _msize(arr) / sizeof(int) - 1);
+		end = clock();
+		my_duration += end - start;
+
+		arr	  = LoadData(data_path);
+		start = clock();
+		qsort(arr, _msize(arr) / sizeof(int), sizeof(arr[0]), compare);
+		end = clock();
+		c_lib_duration += end - start;
+	}
+	printf("Average duration of my quicksort is %lf ms\n",
+		   (double)my_duration / 100);
+	printf("Average duration of c-lib-qsort is %lf ms\n",
+		   (double)c_lib_duration / 100);
+
+	bool flag = Verify(arr, 0, _msize(arr) / sizeof(int) - 1);
+	if (flag) StoreData(arr, _msize(arr) / sizeof(int), "../Data/sorted.txt");
 }
