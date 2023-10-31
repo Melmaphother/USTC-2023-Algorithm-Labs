@@ -116,7 +116,6 @@ template <typename T> void RBTree<T>::LeftRotate(unique_ptr<RBNode<T>> &&x) {
 	auto xp	  = x->parent; //* avoid that after move(x), we cann't find x
 	if (!xp) {			   //* x is root
 		RBNode<T>			 *x_tmp = x.release();
-		unique_ptr<RBNode<T>> x_tmp_ptr(x_tmp);
 		root			   = move(y);
 		root->left		   = unique_ptr<RBNode<T>>(x_tmp);
 		root->left->parent = root.get();
