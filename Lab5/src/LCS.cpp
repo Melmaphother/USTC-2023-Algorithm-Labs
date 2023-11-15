@@ -1,9 +1,9 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <utility>
 #include <vector>
-#include <algorithm>
 
 class LCS {
 public:
@@ -135,6 +135,13 @@ void ConsolePrint(LCS &lcs) {
 	std::cout << "length: " << lcs.LCSSaveSpaceFurther() << std::endl;
 }
 
+std::pair<bool, std::string> getCmdOption(char **begin, char **end,
+										  const std::string &option) {
+	char **itr = std::find(begin, end, option);
+	if (itr != end && ++itr != end) { return std::make_pair(true, *itr); }
+	return std::make_pair(false, "");
+}
+
 bool cmdOptionExists(char **begin, char **end, const std::string &option) {
 	return std::find(begin, end, option) != end;
 }
@@ -145,14 +152,13 @@ int main(int argc, char **argv) {
 		std::cout << "-h : help message" << std::endl;
 		std::cout << "-f [file path] : input file path" << std::endl;
 	}
-	if (cmdOptionExists(argv, argv + argc, "-f")) {
-		if (argc >= 3) {
-			data_path = argv[2];
-		} else {
-			std::cout << "Lack of parameter." << std::endl;
-			std::cout << "Use \"-h\" to get some help." << std::endl;
-		}
+	auto help_info	= cmdOptionExists(argv, argv + argc, "-h");
+	auto input_info = getCmdOption(argv, argv + argc, "-f");
+	if (help_info) {
+		std::cout << "-h : help message" << std::endl;
+		std::cout << "-f [file path] : input file path" << std::endl;
 	}
+	if (input_info.first) data_path = input_info.second;
 	LCS lcs(data_path);
 	ConsolePrint(lcs);
 }
