@@ -1,3 +1,0 @@
-D:/Algorithms/2023-Algorithm-Labs/Lab6/build/CMakeFiles/main.dir
-D:/Algorithms/2023-Algorithm-Labs/Lab6/build/CMakeFiles/edit_cache.dir
-D:/Algorithms/2023-Algorithm-Labs/Lab6/build/CMakeFiles/rebuild_cache.dir
