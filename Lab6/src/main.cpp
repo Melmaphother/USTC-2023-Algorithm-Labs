@@ -1,5 +1,7 @@
 #include "Huffman.h"
 #include <algorithm>
+#include <cassert>
+#include <string.h>
 #include <string>
 
 bool cmdOptionExists(char **begin, char **end, const std::string &option) {
@@ -7,7 +9,7 @@ bool cmdOptionExists(char **begin, char **end, const std::string &option) {
 }
 
 int main(int argc, char **argv) {
-	std::string data_path  = "..\\data\\origin.txt";
+	std::string data_path = "..\\data\\original.txt";
 	std::string store_path = "..\\data\\table.txt";
 	if (cmdOptionExists(argv, argv + argc, "-h")) {
 		std::cout << "-h : help message" << std::endl;
@@ -16,6 +18,8 @@ int main(int argc, char **argv) {
 	}
 	if (cmdOptionExists(argv, argv + argc, "-f")) {
 		if (argc >= 3) {
+			std::cout << "argv2: " << argv[2] << ' ' << strlen(argv[2])
+					  << std::endl;
 			data_path = argv[2];
 		} else {
 			std::cout << "Lack of parameter." << std::endl;

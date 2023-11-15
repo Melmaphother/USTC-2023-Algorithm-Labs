@@ -8,7 +8,7 @@ std::map<char, unsigned>	freq;
 std::map<char, std::string> code;
 
 void IO::read(const std::string &data_path) {
-	std::cout << "data_path: " << data_path << std::endl;
+	std::cout << "data_path: " << data_path <<' ' << data_path.size() << std::endl;
 	this->in.open(data_path, std::ios::in);
 	assert(this->in.is_open());
 	char c;
