@@ -1,4 +1,5 @@
 #include "Huffman.h"
+#include <algorithm>
 #include <string>
 
 bool cmdOptionExists(char **begin, char **end, const std::string &option) {
@@ -6,8 +7,8 @@ bool cmdOptionExists(char **begin, char **end, const std::string &option) {
 }
 
 int main(int argc, char **argv) {
-	std::string data_path  = "data/origin.txt";
-	std::string store_path = "data/table.txt";
+	std::string data_path  = "..\\data\\origin.txt";
+	std::string store_path = "..\\data\\table.txt";
 	if (cmdOptionExists(argv, argv + argc, "-h")) {
 		std::cout << "-h : help message" << std::endl;
 		std::cout << "-f [file path] : input file path" << std::endl;
@@ -31,5 +32,5 @@ int main(int argc, char **argv) {
 	}
 	HuffmanCode huffman(data_path, store_path);
 	huffman.CalcCompressRatio();
-    return 0;
+	return 0;
 }

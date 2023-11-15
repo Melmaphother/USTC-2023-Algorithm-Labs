@@ -2,7 +2,13 @@
 #include <cassert>
 #include <cmath>
 
+#define sep 20
+
+std::map<char, unsigned>	freq;
+std::map<char, std::string> code;
+
 void IO::read(const std::string &data_path) {
+	std::cout << "data_path: " << data_path << std::endl;
 	this->in.open(data_path, std::ios::in);
 	assert(this->in.is_open());
 	char c;
@@ -19,24 +25,24 @@ void IO::write(const std::string				 &store_path,
 			   const std::map<char, std::string> &code) {
 	this->out.open(store_path, std::ios::out);
 	this->out.setf(std::ios::left);
-	this->out.width(25);
+	this->out.width(sep);
 	this->out << "Character";
 	this->out.setf(std::ios::left);
-	this->out.width(25);
+	this->out.width(sep);
 	this->out << "Frequency";
 	this->out.setf(std::ios::left);
-	this->out.width(25);
+	this->out.width(sep);
 	this->out << "Code" << std::endl;
 	assert(this->out.is_open());
 	for (const auto &[character, str] : code) {
 		this->out.setf(std::ios::left);
-		this->out.width(25);
+		this->out.width(sep);
 		this->out << character;
 		this->out.setf(std::ios::left);
-		this->out.width(25);
+		this->out.width(sep);
 		this->out << freq[character];
 		this->out.setf(std::ios::left);
-		this->out.width(25);
+		this->out.width(sep);
 		this->out << str << std::endl;
 	}
 	this->out.close();
@@ -67,7 +73,7 @@ void HuffmanCode::BuildHuffmanTree() {
 	GenerateCode(this->root);
 }
 
-void HuffmanCode::GenerateCode(pHuffmanNode &root, std::string str = "") {
+void HuffmanCode::GenerateCode(pHuffmanNode &root, std::string str) {
 	std::string left_str  = str + "0";
 	std::string right_str = str + "1";
 	if (root->left == nullptr && root->right == nullptr) {

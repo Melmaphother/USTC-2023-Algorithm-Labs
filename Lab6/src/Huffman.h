@@ -1,14 +1,11 @@
-#ifndef HUFFMAN
-#define HUFFMAN
-
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <queue>
 #include <vector>
 
-std::map<char, unsigned>	freq;
-std::map<char, std::string> code;
+extern std::map<char, unsigned>	   freq;
+extern std::map<char, std::string> code;
 
 class IO {
 	friend class HuffmanCode;
@@ -54,5 +51,3 @@ private:
 	void BuildHuffmanTree();
 	void GenerateCode(pHuffmanNode &root, std::string str = "");
 };
-
-#endif // HUFFMAN
