@@ -8,8 +8,12 @@ Schedule::Schedule(std::string data_path) {
 	std::ifstream in(data_path, std::ios::in);
 	assert(in.is_open());
 	in >> num_tasks >> num_machines;
+	assert(num_tasks > 0 && num_machines > 0 && num_machines < num_tasks);
 	task_time.resize(num_tasks + 1, 0);
-	for (unsigned i = 1; i <= num_tasks; ++i) { in >> task_time[i]; }
+	for (unsigned i = 1; i <= num_tasks; ++i) {
+		in >> task_time[i];
+		assert(task_time[i] > 0);
+	}
 	best_schedule.resize(num_tasks + 1, 0);
 	curr_schedule.resize(num_tasks + 1, 0);
 	machine_time.resize(num_machines + 1, 0);
@@ -78,7 +82,7 @@ void Schedule::BackTrace(unsigned task_index, unsigned curr_spend) {
 			machine_time[k] -= task_time[task_index];
 			curr_schedule[task_index] = 0;
 
-            if(machine_time[k] == 0) machine_max_task_time[k] = 0;
+			if (machine_time[k] == 0) machine_max_task_time[k] = 0;
 		}
 	}
 }
