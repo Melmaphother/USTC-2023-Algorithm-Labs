@@ -3,7 +3,6 @@
 #include <cassert>
 #include <chrono>
 #include <iostream>
-#include <string.h>
 #include <string>
 #include <utility>
 
