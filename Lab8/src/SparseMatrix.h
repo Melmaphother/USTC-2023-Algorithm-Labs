@@ -24,13 +24,13 @@ public:
 	int get_num_edges();
 
 private:
-	void bfs(int start_vertex);
+	int bfs(int start_vertex);
 
 private:
 	std::unordered_map<int, std::unordered_set<int>> adj_list;
 	std::unordered_set<int>							 vertices;
 	std::set<Edge>									 edges;
-	std::unordered_map<int, int>					 visited;
+	std::unordered_map<int, bool>					 visited;
 	int												 num_vertices;
 	int												 num_edges;
 	std::string										 mode;

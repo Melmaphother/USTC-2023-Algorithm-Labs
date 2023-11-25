@@ -42,6 +42,7 @@ public:
 	}
 
     void bfs(int start) {
+        std::cout << "BFS:" << std::endl;
         std::queue<int> q;
         q.push(start);
         visited[start] = 1;

@@ -37,36 +37,39 @@ SparseMatrix::SparseMatrix(std::string data_path, std::string mode) {
 		vertices.insert(col);
 		// edges.insert(std::move(Edge(row, col)));
 		count++;
-		if (count % sep_count == 0) {
-			std::cout << count << ' ' << row << ' ' << col << std::endl;
-		}
+		// if (count % sep_count == 0) {
+		// 	std::cout << count << ' ' << row << ' ' << col << std::endl;
+		// }
 	}
 	num_vertices = vertices.size();
 	for (auto it = vertices.begin(); it != vertices.end(); it++) {
-		visited[*it] = 0;
+		visited[*it] = false;
 	}
 	num_edges = edges.size();
 	f.close();
-	std::cout << "Read file end." << std::endl;
+	std::cout << "Read file end..." << std::endl;
 }
 
 void SparseMatrix::bfs() {
 	std::cout << "BFS begin..." << std::endl;
 
 	auto start = std::chrono::high_resolution_clock::now();
+    int count = 0;
 	for (auto [vertex, isvisited] : visited) {
-		if (isvisited == 0) {
+		if (isvisited == false) {
 			// std::cout << "BFS start from " << vertex << std::endl;
-			bfs(vertex);
+			count += bfs(vertex);
 		}
 	}
 	auto end = std::chrono::high_resolution_clock::now();
 
-	std::cout << "BFS end." << std::endl;
+	std::cout << "BFS end..." << std::endl;
+
+    std::cout << "Total number of vertices visited: " << count << std::endl;
 
 	bool flag = true;
 	for (auto [vertex, isvisited] : visited) {
-		if (isvisited == 0) {
+		if (isvisited == false) {
 			std::cout << "Vertex " << vertex << " is not visited." << std::endl;
 			flag = false; //* once there is a vertex not visited, the graph
 						  //* is not searched completed.
@@ -91,20 +94,23 @@ void SparseMatrix::bfs() {
 	}
 }
 
-void SparseMatrix::bfs(int start_vertex) {
+int SparseMatrix::bfs(int start_vertex) {
+    int count = 0;
 	std::queue<int> q;
 	q.push(start_vertex);
-	visited[start_vertex] = 1;
+	visited[start_vertex] = true;
 	while (!q.empty()) {
 		int v = q.front();
 		q.pop();
+        count++;
 		for (auto it = adj_list[v].begin(); it != adj_list[v].end(); it++) {
-			if (visited[*it] == 0) {
+			if (visited[*it] == false) {
 				q.push(*it);
-				visited[*it] = 1;
+				visited[*it] = true;
 			}
 		}
 	}
+    return count;
 }
 
 int SparseMatrix::get_num_vertices() { return num_vertices; }
